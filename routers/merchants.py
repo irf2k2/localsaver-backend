@@ -9,6 +9,8 @@ router = APIRouter()
 def register_merchant(data: dict):
 
     data["password"] = hash_password(data["password"])
+    data["status"] = "active"
+
     result = db.merchants.insert_one(data)
 
     return {
@@ -27,6 +29,10 @@ def login_merchant(data: dict):
 
     if merchant is None:
         return {"error": "Merchant not found"}
+
+# NEW SECURITY CHECK
+    if merchant.get("status") == "disabled":
+        return {"error": "Merchant account is disabled"}
 
     if not verify_password(data["password"], merchant["password"]):
         return {"error": "Invalid password"}

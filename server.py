@@ -8,6 +8,7 @@ from routers import merchants
 from routers import search
 from routers import redemptions
 from routers import admin
+from routers import users
 
 app = FastAPI(title="LocalSaver API")
 
@@ -20,6 +21,7 @@ app.include_router(merchants.router)
 app.include_router(search.router)
 app.include_router(redemptions.router)
 app.include_router(admin.router)
+app.include_router(users.router)
 
 
 @app.get("/")
